@@ -6,6 +6,9 @@ from tensorflow import keras
 import matplotlib.pyplot as plt
 import numpy as np 
 
+
+from django.views.decorators.csrf import csrf_exempt
+
 from .forms import UploadFileForm
 
 # Create your views here.
@@ -29,5 +32,13 @@ def result(request):
         }
         return render(request, 'result.html', result)
 
+@csrf_exempt
 def zzapsinsa(request):
-     return HttpResponse("장고에서왔어요")
+    if request.method == 'GET':
+        return HttpResponse("장고에서왔어요")
+    elif request.method == 'POST':
+        now = request.POST.get('name')
+        print(now)
+        print(request.POST)
+        print("여기까지가 request에요 . ")
+        return HttpResponse("장고에서왔어요")
