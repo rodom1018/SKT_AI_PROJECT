@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp"
+            android:enabled="true"
+            app:itemIconTint="@color/white"
+            app:itemTextColor="@color/white"
+            app:menu="@menu/bottom_nav"
+            app:showAsAction="ifRoom" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_nav"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:orientation="vertical"
+                android:background = "#000000"
+                >
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:text="ZZAPSINSA"
+                    android:textColor="#ffffff"
+                    android:textSize="65sp"
+                    android:textStyle="normal"
+                    android:layout_marginTop="25dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="horizontal"
+                >
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight = "1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:fontFamily="serif"
+                        app:srcCompat="@drawable/cloth1" />
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="101dp"
+                        android:layout_height="33dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:layout_marginLeft="45dp"
+                        android:text="아무튼고급옷 $99999999.99"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:fontFamily="serif"
+                        app:srcCompat="@drawable/cloth3" />
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="134dp"
+                        android:layout_height="47dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:text="직구 특가 $14899999999.99"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="107dp"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:fontFamily="serif"
+                        app:srcCompat="@drawable/cloth5" />
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:text="[여름한정] 초고급우산 $899999999.99"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        app:srcCompat="@drawable/cloth2" />
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="144dp"
+                        android:layout_height="31dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:layout_marginLeft="40dp"
+                        android:text="반짝이는 옷 $899999999.99"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:fontFamily="serif"
+                        app:srcCompat="@drawable/cloth4" />
+
+                    <TextView
+                        android:id="@+id/textView14"
+                        android:layout_width="120dp"
+                        android:layout_height="44dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:text="3줄 외투 $1599999999.99"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:fontFamily="serif"
+                        app:srcCompat="@drawable/cloth6" />
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:fontFamily="serif"
+                        android:layout_marginLeft="40dp"
+                        android:text="초고급 가방 $299999999.99"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>
