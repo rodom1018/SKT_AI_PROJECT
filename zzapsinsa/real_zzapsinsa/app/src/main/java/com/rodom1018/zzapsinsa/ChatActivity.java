@@ -93,7 +93,7 @@ public class ChatActivity extends AppCompatActivity {
                         .build();
 
                 Response response = client.newCall(request).execute();
-                response.body().string();
+                System.out.println(response.body().string());
 
             } catch (Exception e) {
                 e.printStackTrace();
