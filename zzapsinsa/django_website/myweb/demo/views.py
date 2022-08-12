@@ -9,7 +9,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .forms import UploadFileForm
 
-
+#print(predict("지금 당장 환불해 주세요"))
+#########################################################3
+#############################################################
+##############################################################
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,121 +21,6 @@ import urllib.request
 import time
 import tensorflow_datasets as tfds
 import tensorflow as tf
-
-MAX_LENGTH=25
-VOCAB_SIZE = 8139
-D_MODEL = 512
-NUM_LAYERS = 6
-NUM_HEADS = 16
-DFF = 512
-DROPOUT = 0.3
-START_TOKEN = [8137]
-END_TOKEN = [8138]
-tokenizer = tfds.deprecated.text.SubwordTextEncoder.load_from_file('./models/tokenizer.tf')
-
-
-
-# Create your views here.
-def index(request):
-    form = UploadFileForm
-    return render(request, 'index.html', {'form' : UploadFileForm})
-
-def result(request):
-    #new_model.summary()
-    new_model = keras.models.load_model('./emotion_cnn_aug.hdf5')
-    #my_image = request.FILES['file']
-    #print(request.POST)
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            img = request.FILES['imgfile']
-
-        result = {
-            #'input_image' : request.FILES['img']
-        }
-        return render(request, 'result.html', result)
-
-@csrf_exempt
-def zzapsinsa(request):
-    print(request)
-    if request.method == 'GET':
-        return HttpResponse("장고에서왔어요")
-    elif request.method == 'POST':
-
-        model = transformer(
-            vocab_size=VOCAB_SIZE,
-            num_layers=NUM_LAYERS,
-            dff=DFF,
-            d_model=D_MODEL,
-            num_heads=NUM_HEADS,
-            dropout=DROPOUT)
-        #print(model) 여기까지 안죽는거 확인하였음.
-        output = model.predict("지금 당장 환불해 주세요")
-        return HttpResponse("아에이오우")
-        """
-        now = request.POST.get('name')
-        print(now)
-        print(request.POST)
-        print("여기까지가 request에요 . ")
-        return HttpResponse("장고에서왔어요")
-        """
-
-def preprocess_sentence(sentence):
-  # 단어와 구두점 사이에 공백 추가.
-  # ex) 12시 땡! -> 12시 땡 !
-  sentence = re.sub(r"([?.!,])", r" \1 ", sentence)
-  sentence = sentence.strip()
-  return sentence
-
-def evaluate(sentence):
-  # 입력 문장에 대한 전처리
-  print("dfdfdfdfdfdfdfdf")
-  sentence = preprocess_sentence(sentence)
-
-  # 입력 문장에 시작 토큰과 종료 토큰을 추가
-  sentence = tf.expand_dims(
-      START_TOKEN + tokenizer.encode(sentence) + END_TOKEN, axis=0)
-
-  output = tf.expand_dims(START_TOKEN, 0)
-
-  # 디코더의 예측 시작
-  for i in range(MAX_LENGTH):
-    predictions = model(inputs=[sentence, output], training=False)
-
-    # 현재 시점의 예측 단어를 받아온다.
-    predictions = predictions[:, -1:, :]
-    predicted_id = tf.cast(tf.argmax(predictions, axis=-1), tf.int32)
-
-    # 만약 현재 시점의 예측 단어가 종료 토큰이라면 예측을 중단
-    if tf.equal(predicted_id, END_TOKEN[0]):
-      break
-
-    # 현재 시점의 예측 단어를 output(출력)에 연결한다.
-    # output은 for문의 다음 루프에서 디코더의 입력이 된다.
-    output = tf.concat([output, predicted_id], axis=-1)
-
-  # 단어 예측이 모두 끝났다면 output을 리턴.
-  return tf.squeeze(output, axis=0)
-
-def predict(sentence):
-  print(sentence)
-  prediction = evaluate(sentence)
-  # prediction == 디코더가 리턴한 챗봇의 대답에 해당하는 정수 시퀀스
-  # tokenizer.decode()를 통해 정수 시퀀스를 문자열로 디코딩.
-  predicted_sentence = tokenizer.decode(
-      [i for i in prediction if i < tokenizer.vocab_size])
-
-  print('Input: {}'.format(sentence))
-  print('Output: {}'.format(predicted_sentence))
-
-  print(sentence)
-  print(predicted_sentence)
-
-  return predicted_sentence
-
-# output = predict("지금 당장 환불해 주세요")
-
-
 
 #########################################################3
 #############################################################
@@ -477,3 +365,111 @@ def loss_function(y_true, y_pred):
   loss = tf.multiply(loss, mask)
 
   return tf.reduce_mean(loss)
+
+  
+def preprocess_sentence(sentence):
+  sentence = re.sub(r"([?.!,])", r" \1 ", sentence)
+  sentence = sentence.strip()
+  return sentence
+
+def evaluate(sentence):
+  sentence = preprocess_sentence(sentence)
+
+  # 입력 문장에 시작 토큰과 종료 토큰을 추가
+  sentence = tf.expand_dims(
+      START_TOKEN + tokenizer.encode(sentence) + END_TOKEN, axis=0)
+
+  output = tf.expand_dims(START_TOKEN, 0)
+
+  # 디코더의 예측 시작
+  for i in range(MAX_LENGTH):
+    predictions = model(inputs=[sentence, output], training=False)
+
+    # 현재 시점의 예측 단어를 받아온다.
+    predictions = predictions[:, -1:, :]
+    predicted_id = tf.cast(tf.argmax(predictions, axis=-1), tf.int32)
+
+    # 만약 현재 시점의 예측 단어가 종료 토큰이라면 예측을 중단
+    if tf.equal(predicted_id, END_TOKEN[0]):
+      break
+
+    # 현재 시점의 예측 단어를 output(출력)에 연결한다.
+    # output은 for문의 다음 루프에서 디코더의 입력이 된다.
+    output = tf.concat([output, predicted_id], axis=-1)
+
+  # 단어 예측이 모두 끝났다면 output을 리턴.
+  return tf.squeeze(output, axis=0)
+
+def predict(sentence):
+  prediction = evaluate(sentence)
+  # prediction == 디코더가 리턴한 챗봇의 대답에 해당하는 정수 시퀀스
+  # tokenizer.decode()를 통해 정수 시퀀스를 문자열로 디코딩.
+  predicted_sentence = tokenizer.decode(
+      [i for i in prediction if i < tokenizer.vocab_size])
+
+  return predicted_sentence
+
+
+corpus = []
+with open('.\\real_model\\tokenizer.tf.subwords', 'r', encoding='utf-8') as f:
+   for inx, line in enumerate(f):
+       if inx > 1:
+          sent = line.lower().strip()
+          sent = line.replace('\n', '')
+          sent = sent.strip()
+          corpus.append(sent[1:len(sent)-1])
+
+tokenizer = tfds.deprecated.text.SubwordTextEncoder(vocab_list = corpus)
+
+MAX_LENGTH = 50
+D_MODEL = 256
+NUM_LAYERS = 3
+NUM_HEADS = 16
+DFF = 256
+DROPOUT = 0.3
+
+START_TOKEN, END_TOKEN = [tokenizer.vocab_size], [tokenizer.vocab_size + 1]
+VOCAB_SIZE = tokenizer.vocab_size + 2
+
+model = transformer(vocab_size=VOCAB_SIZE,
+                    num_layers=NUM_LAYERS,
+                    dff=DFF,
+                    d_model=D_MODEL,
+                    num_heads=NUM_HEADS,
+                    dropout=DROPOUT)
+model.load_weights(".\\real_model\\model.h5")
+
+####################################################################
+#####################################################################
+#####################################################################
+# Create your views here.
+def index(request):
+    form = UploadFileForm
+    return render(request, 'index.html', {'form' : UploadFileForm})
+
+def result(request):
+    #new_model.summary()
+    new_model = keras.models.load_model('./emotion_cnn_aug.hdf5')
+    #my_image = request.FILES['file']
+    #print(request.POST)
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            img = request.FILES['imgfile']
+
+        result = {
+            #'input_image' : request.FILES['img']
+        }
+        return render(request, 'result.html', result)
+
+@csrf_exempt
+def zzapsinsa(request):
+    print(request)
+    if request.method == 'GET':
+        return HttpResponse("장고에서왔어요")
+    elif request.method == 'POST':
+        #print(request.POST)
+        now_question = request.POST.get('question')
+        output = predict(now_question)
+        print(output)
+        return HttpResponse(output)

@@ -26,10 +26,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ChatActivity extends AppCompatActivity {
-
+    private EditText answer;
     private EditText question;
     private Button ask;
-    private TextView answer;
 
     Handler handler = new Handler(Looper.getMainLooper());
 
@@ -45,7 +44,7 @@ public class ChatActivity extends AppCompatActivity {
 
         question = (EditText) findViewById(R.id.question);
         ask = (Button) findViewById(R.id.ask);
-        answer = (TextView) findViewById(R.id.answer);
+        answer = (EditText) findViewById(R.id.answer);
 
         // textView.setText("잘 기입이 되나요 ?"); <- 잘됨
         ask.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +58,6 @@ public class ChatActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                answer.setText(now_answer);
             }
         });
     }
@@ -74,7 +72,7 @@ public class ChatActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            postrequest("http://10.0.2.2:8000/zzapsinsa");
+            postrequest("http://3.36.242.114:8000/zzapsinsa");
         }
 
         public void postrequest(String urlStr) {
@@ -93,7 +91,10 @@ public class ChatActivity extends AppCompatActivity {
                         .build();
 
                 Response response = client.newCall(request).execute();
-                System.out.println(response.body().string());
+                //System.out.println(response.body().string());
+                //String temp_output = response.body().string();
+                //answer.setText(response.body().string());
+                answer.setText(response.body().string());
 
             } catch (Exception e) {
                 e.printStackTrace();

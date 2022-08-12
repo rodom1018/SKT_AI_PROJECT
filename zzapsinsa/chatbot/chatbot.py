@@ -18,7 +18,6 @@ import urllib.request
 import time
 import tensorflow_datasets as tfds
 import tensorflow as tf
-from tokenizers import BertWordPieceTokenizer
 
 #########################################################3
 #############################################################
